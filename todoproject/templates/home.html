@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% load static %}
+  <style>
+    body {
+      background-color: white;
+    }
+    .banner {
+      background-color: black;
+      width: 100%;
+      height: 50px;
+    }
+  </style>
+
+  <div class="banner">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="alert alert-justify" role="alert">
+          <h2 class="text-white" style="font-family: helvetica;">ToDo</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <form method="POST" class="mb-3 p-3 rounded shadow" style="border: 0px; text-align: left;">
+          <div class="form-group mb-3">
+            <input type="text" class="form-control" name="task" placeholder="Task name" style="background-color: #ffffff; border: 1px solid #343a40;">
+          </div>
+          <div class="form-group mb-3">
+            <input type="text" class="form-control" name="priority" placeholder="Priority" style="background-color: #ffffff; border: 1px solid #343a40;">
+          </div>
+          <div class="form-group mb-3">
+            <input type="date" class="form-control" name="date" placeholder="Enter your date" style="background-color: #ffffff; border: 1px solid #343a40;">
+          </div>
+          <form method="POST">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-primary" value="Submit">
+          </form>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row justify-content-end">
+      <div class="col-md-5">
+        <h4>Tasks to be Completed</h4>
+        {% for i in task %}
+          <div class="shadow card mb-3">
+            <div class="card-body">
+              <h5 class="card-title">{{ i.name }}</h5>
+              <p><b>{{ i.priority }}</b></p>
+              <a class="btn btn-danger mr-2" href="{% url 'delete' i.id %}">Done</a>
+              <a class="btn btn-success" href="{% url 'update' i.id %}">Update</a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
